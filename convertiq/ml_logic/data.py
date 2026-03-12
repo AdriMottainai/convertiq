@@ -1,7 +1,5 @@
 import pandas as pd
 
-from google.cloud import bigquery
-from colorama import Fore, Style
 from pathlib import Path
 
 import kagglehub
@@ -26,25 +24,19 @@ def load_data_kaggle_raw(nrows:int | None = None) -> pd.DataFrame:
     "2019-Oct.csv",pandas_kwargs={"usecols": COLUMN_NAMES_RAW,
             "nrows": nrows,
             "dtype": DTYPES_RAW,
-    
-    if save_csv:
-        raw_dir = Path(LOCAL_DATA_PATH) / "raw"
-        raw_dir.mkdir(parents=True, exist_ok=True)
-        output_path = raw_dir / f"raw_kaggle_{DATA_SIZE}.csv"
-        df.to_csv(output_path, index=False)
-        print(f"✅ Raw data saved to {output_path}")
-
-    return df
 }
 )
-    
+    return df
+
 def load_data_in_chunks(csv_path: str | Path):
+    
     return pd.read_csv(
         csv_path,
         usecols=COLUMN_NAMES_RAW,
         dtype=DTYPES_RAW,
         chunksize=CHUNK_SIZE,
     )
+<<<<<<< HEAD
 
 def clean_data(df: pd.DataFrame) -> pd.DataFrame:
     """
@@ -73,3 +65,6 @@ def clean_data(df: pd.DataFrame) -> pd.DataFrame:
     print("✅ Data cleaned")
 
     return df
+=======
+print(f"✅ Data loaded succesfully!")
+>>>>>>> 4c41bbf (train.py created)
