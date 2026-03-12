@@ -1,6 +1,3 @@
 pandas
-kagglehub
-matplotlib
-seaborn
 scikit-learn
 lightgbm
