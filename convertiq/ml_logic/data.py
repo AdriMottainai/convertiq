@@ -29,7 +29,6 @@ def load_data_in_chunks(csv_path: str | Path):
         dtype=DTYPES_RAW,
         chunksize=CHUNK_SIZE,
     )
-<<<<<<< HEAD
 
 def clean_data(df: pd.DataFrame) -> pd.DataFrame:
     """
@@ -58,6 +57,3 @@ def clean_data(df: pd.DataFrame) -> pd.DataFrame:
     print("✅ Data cleaned")
 
     return df
-=======
-print(f"✅ Data loaded succesfully!")
->>>>>>> 4c41bbf (train.py created)
