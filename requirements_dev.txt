@@ -9,3 +9,4 @@ seaborn==0.13.2
 numpy==2.2.6
 pandas==2.3.3
 lightgbm
+google.cloud
