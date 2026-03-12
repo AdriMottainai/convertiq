@@ -1,3 +1,10 @@
+import pandas as pd
+
+from google.cloud import bigquery
+from colorama import Fore, Style
+from pathlib import Path
+
+from convertiq.params import *
 
 def preprocess_features(X: pd.DataFrame) -> pd.Dataframe:
 
@@ -86,3 +93,5 @@ def preprocess_features(X: pd.DataFrame) -> pd.Dataframe:
 
     print("✅ X_processed, with shape", X_processed.shape)
     print("✅ y_processed, with shape", y_processed.shape)
+
+    return X_processed, y_processed
