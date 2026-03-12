@@ -6,6 +6,18 @@ from pathlib import Path
 
 from convertiq.params import *
 
+import pandas as pd
+from convertiq.params import CHUNK_SIZE, COLUMN_NAMES_RAW, DTYPES_RAW
+
+def load_data_chunks(path):
+
+    return pd.read_csv(
+        path,
+        usecols=COLUMN_NAMES_RAW,
+        dtype=DTYPES_RAW,
+        chunksize=CHUNK_SIZE
+    )
+
 def clean_data(df: pd.DataFrame) -> pd.DataFrame:
     """
     Clean raw data by
