@@ -1,13 +1,18 @@
 import os
 import numpy as np
-
+from pathlib import Path
 ##################  VARIABLES  ##################
-#DATA_SIZE = "1k" # ["1k", "200k", "all"]
-#CHUNK_SIZE = 200
-#GCP_PROJECT = "<your project id>" # TO COMPLETE
-#GCP_PROJECT_WAGON = "wagon-public-datasets"
-#BQ_DATASET = "taxifare"
-#BQ_REGION = "EU"
+DATA_SIZE = "1M"  # ["1k", "200k", "1M", "all"]
+
+DATA_SIZE_MAP = {
+    "200k": 200_000,
+    "1M": 1_000_000,
+    "10M": 10_000_000,
+    "all": None
+}
+CHUNK_SIZE = 100_000 #nbr de row qu'on va utiliser [pas encore operationnel en code]
+GCP_PROJECT = "convertiq-490009"
+
 MODEL_TARGET = "local"
 ##################  CONSTANTS  #####################
 PROJECT_ROOT = Path(__file__).resolve().parents[2]
