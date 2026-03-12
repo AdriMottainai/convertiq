@@ -1,0 +1,21 @@
+Metadata-Version: 2.4
+Name: convertiq
+Version: 0.0.0
+Summary: Best prediction model on the market
+Author: ConvertIQ dream team
+Requires-Dist: imbalanced-learn==0.14.1
+Requires-Dist: matplotlib==3.10.8
+Requires-Dist: matplotlib-inline==0.2.1
+Requires-Dist: scikit-learn==1.7.2
+Requires-Dist: jupyter
+Requires-Dist: shap
+Requires-Dist: kagglehub==1.0.0
+Requires-Dist: seaborn==0.13.2
+Requires-Dist: numpy==2.2.6
+Requires-Dist: pandas==2.3.3
+Requires-Dist: lightgbm
+Requires-Dist: google.cloud
+Requires-Dist: setuptools
+Dynamic: author
+Dynamic: requires-dist
+Dynamic: summary
