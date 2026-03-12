@@ -1,4 +1,6 @@
--r requirements.txt
+pandas
+scikit-learn
+lightgbm
 
 matplotlib
 seaborn
