@@ -12,6 +12,7 @@ convertiq/ml_logic/__init__.py
 convertiq/ml_logic/data.py
 convertiq/ml_logic/encoders.py
 convertiq/ml_logic/model.py
-convertiq/ml_logic/preprocess.py
+convertiq/ml_logic/preprocessing.py
+convertiq/ml_logic/preprocessor.py
 convertiq/ml_logic/registry.py
 convertiq/ml_logic/train.py
