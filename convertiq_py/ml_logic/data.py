@@ -14,7 +14,7 @@ def load_data_kaggle_raw(nrows:int | None = None) -> pd.DataFrame:
     file_path = "2019-Oct.csv"
 
     df = kagglehub.load_dataset(KaggleDatasetAdapter.PANDAS,"mkechinov/ecommerce-behavior-data-from-multi-category-store",
-    "2019-Oct.csv",pandas_kwargs={"usecols": COLUMN_NAMES_RAW,
+    file_path,pandas_kwargs={"usecols": COLUMN_NAMES_RAW,
             "nrows": nrows,
             "dtype": DTYPES_RAW,
 }

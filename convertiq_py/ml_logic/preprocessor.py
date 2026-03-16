@@ -5,8 +5,11 @@ import pandas as pd
 # from pathlib import Path
 
 from convertiq_py.params import *
+from convertiq_py.ml_logic.data import clean_data
 
 def preprocess_features(df: pd.DataFrame) -> pd.DataFrame:
+    # Clean data
+    X = clean_data(df)
 
     # Observation and prediction set split
     observation_end = pd.Timestamp(OBSERVATION_END)
@@ -22,10 +25,10 @@ def preprocess_features(df: pd.DataFrame) -> pd.DataFrame:
     y_purchasers["label"] = y_purchasers["user_id"].isin(purchasers).astype(int)
 
     # Feature engineering X_obs
-    feature_engineering(X_obs)
+    X_feat_eng = feature_engineering(X_obs)
 
     # Grouping with y_purchasers
-    dataset = y_purchasers.merge(user_features, on="user_id", how="inner")
+    dataset = y_purchasers.merge(X_feat_eng, on="user_id", how="inner")
     X_processed = dataset.drop(columns="label")
     X_processed = X_processed.drop(columns="user_id")
 
@@ -37,7 +40,7 @@ def preprocess_features(df: pd.DataFrame) -> pd.DataFrame:
     return X_processed, y_processed
 
 
-def feature_engineering(X: pd.DataFrame) -> pd.DataFrame:
+def feature_engineering(X_obs: pd.DataFrame) -> pd.DataFrame:
     # Time features
     X_obs["hour"] = X_obs["event_time"].dt.hour
     X_obs["dayofweek"] = X_obs["event_time"].dt.dayofweek  # 0=Lundi
@@ -53,14 +56,14 @@ def feature_engineering(X: pd.DataFrame) -> pd.DataFrame:
     n_sessions     = ("user_session", "nunique"),
     n_days_active  = ("event_time", lambda x: x.dt.date.nunique()),
     )
-
-    behavior["has_ever_carted"] = (behavior["total_carts"] > 0).astype("int8")
-    behavior["has_ever_purchased"] = (behavior["total_purchases"] > 0).astype("int8")
+    print(behavior["total_carts"].dtype)
+    behavior["has_ever_carted"] = (behavior["total_carts"].astype("int8") > 0).astype("int8")
+    behavior["has_ever_purchased"] = (behavior["total_purchases"].astype("int8") > 0).astype("int8")
     behavior["view_to_cart_ratio"] = (
-        behavior["total_carts"] / behavior["total_views"].replace(0, 1)
+        behavior["total_carts"].astype("int8") / behavior["total_views"].astype("int8").replace(0, 1)
     )
     behavior["cart_to_purchase_ratio"] = (
-        behavior["total_purchases"] / behavior["total_carts"].replace(0, 1)
+        behavior["total_purchases"].astype("int8") / behavior["total_carts"].astype("int8").replace(0, 1)
     )
 
     # Sessions features
@@ -89,6 +92,6 @@ def feature_engineering(X: pd.DataFrame) -> pd.DataFrame:
     # Features grouping and X_features_engineering
     X_feat_eng = (behavior.join(session_user, how="left")
         )
-    X_feat_eng  = X_feat_eng.astype("float32")
+    X_feat_eng  = X_feat_eng #.astype("float32")
 
     return X_feat_eng
