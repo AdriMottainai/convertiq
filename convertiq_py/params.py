@@ -12,7 +12,7 @@ DATA_SIZE_MAP = {
 }
 
 # Time interval for preprocessing
-OBSERVATION_END = "2019-10-01"
+OBSERVATION_END = "2019-10-06"
 PREDICTION_END = "2019-10-08"
 
 CHUNK_SIZE = 100_000 #nbr de row qu'on va utiliser [pas encore operationnel en code]
