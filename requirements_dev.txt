@@ -11,3 +11,5 @@ pandas==2.3.3
 lightgbm
 google.cloud
 setuptools
+fastapi
+fastapi[standard]

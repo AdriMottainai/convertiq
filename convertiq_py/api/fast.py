@@ -44,6 +44,6 @@ def predict(
 @app.get("/")
 def root():
     root = {
-    'greeting': 'Hello'
+    'Welcome to Convertiq'
     }
     return root
