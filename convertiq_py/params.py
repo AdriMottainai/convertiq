@@ -10,6 +10,11 @@ DATA_SIZE_MAP = {
     "10M": 10_000_000,
     "all": None
 }
+
+# Time interval for preprocessing
+OBSERVATION_END = "2019-10-01"
+PREDICTION_END = "2019-10-08"
+
 CHUNK_SIZE = 100_000 #nbr de row qu'on va utiliser [pas encore operationnel en code]
 GCP_PROJECT = "convertiq-490009"
 

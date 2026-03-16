@@ -4,27 +4,20 @@ import pandas as pd
 # from colorama import Fore, Style
 # from pathlib import Path
 
-from convertiq.params import *
+from convertiq_py.params import *
 
 def preprocess_features(df: pd.DataFrame) -> pd.DataFrame:
-
-    # Filtering X to keep only top 5 category_code
-    top5 = ['electronics.smartphone', 'electronics.audio.headphone', 'electronics.video.tv',
-        'electronics.clocks', 'computers.notebook']
-    X = df[df['category_code'].isin(top5)]
-
-    # Listed in chronological order
-    X = X.sort_values("event_time").reset_index(drop=True)
 
     # Observation and prediction set split
     observation_end = pd.Timestamp(OBSERVATION_END)
     prediction_end  = pd.Timestamp(PREDICTION_END)
 
+    # X_pred sert juste à aller récupérer les acheteurs (y) pendant cette période
     X_obs = X[X["event_time"] < observation_end].copy()
     X_pred = X[X["event_time"] >= observation_end].copy()
 
     # Create y with purchasers from prediction period
-    purchasers = set(X_obs.loc[X_obs["event_type"] == "purchase", "user_id"])
+    purchasers = set(X_pred.loc[X_pred["event_type"] == "purchase", "user_id"])
     y_purchasers = pd.DataFrame({"user_id": X_obs["user_id"].unique()})
     y_purchasers["label"] = y_purchasers["user_id"].isin(purchasers).astype(int)
 

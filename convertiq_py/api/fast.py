@@ -1,9 +1,9 @@
 import pandas as pd
 from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
-from convertiq.ml_logic.preprocessor import preprocess_features, feature_engineering
-from convertiq.ml_logic.data import load_data_kaggle_raw, load_data_in_chunks, clean_data
-from convertiq.ml_logic.registry import load_model
+from convertiq_py.ml_logic.preprocessor import preprocess_features, feature_engineering
+from convertiq_py.ml_logic.data import load_data_kaggle_raw, load_data_in_chunks, clean_data
+from convertiq_py.ml_logic.registry import load_model
 
 app = FastAPI()
 app.state.model = load_model()

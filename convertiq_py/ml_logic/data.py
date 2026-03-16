@@ -5,7 +5,7 @@ from pathlib import Path
 import kagglehub
 from kagglehub import KaggleDatasetAdapter
 
-from convertiq.params import LOCAL_DATA_PATH, COLUMN_NAMES_RAW, DTYPES_RAW, DATA_SIZE, DATA_SIZE_MAP, CHUNK_SIZE
+from convertiq_py.params import LOCAL_DATA_PATH, COLUMN_NAMES_RAW, DTYPES_RAW, DATA_SIZE, DATA_SIZE_MAP, CHUNK_SIZE
 
 def load_data_kaggle_raw(nrows:int | None = None) -> pd.DataFrame:
     if nrows is None:
