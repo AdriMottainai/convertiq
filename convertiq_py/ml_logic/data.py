@@ -37,6 +37,10 @@ def clean_data(df: pd.DataFrame) -> pd.DataFrame:
     - removing buggy or irrelevant transactions
     """
 
+    # Verify temporal range
+    print(df['event_time'].min(), df['event_time'].max())
+
+
     # Clean the event time, remove UTC
     df["event_time"] = pd.to_datetime(
         df["event_time"].str.replace(" UTC", "", regex=False),
@@ -54,10 +58,11 @@ def clean_data(df: pd.DataFrame) -> pd.DataFrame:
     # New feature "has_valid_price"
     df["has_valid_price"] = (df["price"] > 0).astype("int8")
 
-    # Filtering X to keep only top 5 category_code
-    top5 = ['electronics.smartphone', 'electronics.audio.headphone', 'electronics.video.tv',
-        'electronics.clocks', 'computers.notebook']
-    X = df[df['category_code'].isin(top5)]
+    # Filtering X to keep only top 10 category_code. We drop one unknown category which is one of the top purchase, can we find a way to integrate it?
+    top10 = ['electronics.smartphone', 'electronics.audio.headphone', 'electronics.video.tv',
+        'electronics.clocks', 'computers.notebook', 'appliances.kitchen.washer', 'appliances.environment.vacuum',
+        'appliances.kitchen.refrigerators', 'electronics.tablet', 'appliances.environment.air_heater']
+    X = df[df['category_code'].isin(top10)]
 
     # Listed in chronological order
     X = X.sort_values("event_time").reset_index(drop=True)

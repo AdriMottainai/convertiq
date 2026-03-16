@@ -6,7 +6,7 @@ import pandas as pd
 
 from convertiq_py.params import *
 
-def preprocess_features(df: pd.DataFrame) -> pd.DataFrame:
+def preprocess_features(X: pd.DataFrame) -> pd.DataFrame:
 
     # Observation and prediction set split
     observation_end = pd.Timestamp(OBSERVATION_END)
@@ -14,18 +14,27 @@ def preprocess_features(df: pd.DataFrame) -> pd.DataFrame:
 
     # X_pred sert juste à aller récupérer les acheteurs (y) pendant cette période
     X_obs = X[X["event_time"] < observation_end].copy()
-    X_pred = X[X["event_time"] >= observation_end].copy()
+    X_pred = X[(X["event_time"] >= observation_end) & (X["event_time"] < prediction_end)].copy()
 
-    # Create y with purchasers from prediction period
+    # 1-Create a purchasers set with all the purchasers in the prediction period
+    # 2-Create a y_purchasers dataframe with all unique user_id in the observation period
+    # 3-Create a label column in y_purchasers, with 1 if the user_id is a purchaser during prediction period else 0 (If 0, the user_id might be inactive in the prediction period, or not a buyer)
     purchasers = set(X_pred.loc[X_pred["event_type"] == "purchase", "user_id"])
     y_purchasers = pd.DataFrame({"user_id": X_obs["user_id"].unique()})
     y_purchasers["label"] = y_purchasers["user_id"].isin(purchasers).astype(int)
 
     # Feature engineering X_obs
-    feature_engineering(X_obs)
+    X_feat_eng, long_session_users = feature_engineering(X_obs)
+
+    #Reset user_id index from the groupby in feature_engineering
+    X_feat_eng = X_feat_eng.reset_index()
 
     # Grouping with y_purchasers
-    dataset = y_purchasers.merge(user_features, on="user_id", how="inner")
+    dataset = y_purchasers.merge(X_feat_eng, on="user_id", how="inner")
+
+    # Filtering out long_session_users
+    dataset = dataset[~dataset["user_id"].isin(long_session_users["user_id"])]
+
     X_processed = dataset.drop(columns="label")
     X_processed = X_processed.drop(columns="user_id")
 
@@ -37,7 +46,12 @@ def preprocess_features(df: pd.DataFrame) -> pd.DataFrame:
     return X_processed, y_processed
 
 
-def feature_engineering(X: pd.DataFrame) -> pd.DataFrame:
+def feature_engineering(X_obs: pd.DataFrame) -> pd.DataFrame:
+
+    # Observation and prediction set split
+    observation_end = pd.Timestamp(OBSERVATION_END)
+    prediction_end  = pd.Timestamp(PREDICTION_END)
+
     # Time features
     X_obs["hour"] = X_obs["event_time"].dt.hour
     X_obs["dayofweek"] = X_obs["event_time"].dt.dayofweek  # 0=Lundi
@@ -72,6 +86,12 @@ def feature_engineering(X: pd.DataFrame) -> pd.DataFrame:
     session_stats["session_duration"] = (
         session_stats["session_end"] - session_stats["session_start"]
     )
+
+    # Capturer les sessions de 18h ou plus
+    long_sessions = session_stats[session_stats['session_duration'] >= pd.Timedelta(hours=18)]
+    # Créer un dataframe long_session_users avec les user_id concernés (filtré plus tard sur "dataset" dans la fonction preprocess_features)
+    long_session_users = long_sessions[['user_id']].drop_duplicates().reset_index(drop=True)
+
     # Grouping Session features per user_id for the observation period
     ## Infos de session par user_ID sur l'intervalle d'observation
 
@@ -86,9 +106,48 @@ def feature_engineering(X: pd.DataFrame) -> pd.DataFrame:
     for col in ["avg_session_duration", "median_session_duration", "max_session_duration"]:
             session_user[col] = session_user[col].dt.total_seconds()
 
+    # Features product diversity (Compte le nombre de produits et catégories différentes des events user_id, et si un produit est revisité)
+    diversity = X_obs.groupby("user_id").agg(
+    unique_products   = ("product_id", "nunique"),
+    unique_categories = ("category_id", "nunique"),
+    unique_brands     = ("brand", "nunique"),
+    )
+
+    diversity["product_revisit_rate"] = 1 - (
+    diversity["unique_products"] /
+    behavior["total_events"].replace(0, 1)
+    )
+
+    # Features de prix, regarde des statistiques sur le prix des produits associés à des évènements d'un user_id sur la période d'observation
+    price_feats = X_obs.groupby("user_id")["price"].agg(
+    avg_price    = "mean",
+    median_price = "median",
+    max_price    = "max",
+    min_price    = "min",
+    )
+    price_feats["price_range"] = price_feats["max_price"] - price_feats["min_price"]
+
+    # Features temporelles, calcule la proximité des events avec la fin de la période d'observation
+    temporal = X_obs.groupby("user_id").agg(
+    last_event_ts  = ("event_time", "max"),
+    first_event_ts = ("event_time", "min"),
+    weekend_ratio  = ("is_weekend", "mean"),
+    )
+
+    # Enlève les colonnes au format datetime64 et en crée des nouvelles numériques
+    temporal["recency_seconds"] = (observation_end - temporal["last_event_ts"]).dt.total_seconds()
+    temporal["user_lifetime_seconds"] = (temporal["last_event_ts"] - temporal["first_event_ts"]).dt.total_seconds()
+    temporal = temporal.drop(columns=["last_event_ts", "first_event_ts"])
+
+
     # Features grouping and X_features_engineering
-    X_feat_eng = (behavior.join(session_user, how="left")
-        )
+    X_feat_eng = (behavior
+                 .join(session_user, how="left")
+                 .join(diversity, how="left")
+                 .join(price_feats, how="left")
+                 .join(temporal, how="left")
+    )
+
     X_feat_eng  = X_feat_eng.astype("float32")
 
-    return X_feat_eng
+    return X_feat_eng, long_session_users
