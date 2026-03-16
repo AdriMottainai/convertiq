@@ -2,4 +2,7 @@ kagglehub==1.0.0
 numpy==2.2.6
 pandas==2.3.3
 scikit-learn==1.7.2
-imblearn==0.14.1
+imbalanced-learn==0.14.0
+fastapi
+uvicorn
+joblib
