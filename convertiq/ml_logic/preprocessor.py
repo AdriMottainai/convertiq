@@ -1,12 +1,12 @@
 import pandas as pd
 
-from google.cloud import bigquery
-from colorama import Fore, Style
-from pathlib import Path
+# from google.cloud import bigquery
+# from colorama import Fore, Style
+# from pathlib import Path
 
 from convertiq.params import *
 
-def preprocess_features(X: pd.DataFrame) -> pd.Dataframe:
+def preprocess_features(df: pd.DataFrame) -> pd.DataFrame:
 
     # Filtering X to keep only top 5 category_code
     top5 = ['electronics.smartphone', 'electronics.audio.headphone', 'electronics.video.tv',
@@ -24,19 +24,34 @@ def preprocess_features(X: pd.DataFrame) -> pd.Dataframe:
     X_pred = X[X["event_time"] >= observation_end].copy()
 
     # Create y with purchasers from prediction period
-    purchasers = set(X_pred.loc[X_pred["event_type"] == "purchase", "user_id"])
+    purchasers = set(X_obs.loc[X_obs["event_type"] == "purchase", "user_id"])
     y_purchasers = pd.DataFrame({"user_id": X_obs["user_id"].unique()})
     y_purchasers["label"] = y_purchasers["user_id"].isin(purchasers).astype(int)
 
     # Feature engineering X_obs
+    feature_engineering(X_obs)
 
-    ## Time features
+    # Grouping with y_purchasers
+    dataset = y_purchasers.merge(user_features, on="user_id", how="inner")
+    X_processed = dataset.drop(columns="label")
+    X_processed = X_processed.drop(columns="user_id")
+
+    y_processed = dataset["label"]
+
+    print("✅ X_processed, with shape", X_processed.shape)
+    print("✅ y_processed, with shape", y_processed.shape)
+
+    return X_processed, y_processed
+
+
+def feature_engineering(X: pd.DataFrame) -> pd.DataFrame:
+    # Time features
     X_obs["hour"] = X_obs["event_time"].dt.hour
     X_obs["dayofweek"] = X_obs["event_time"].dt.dayofweek  # 0=Lundi
     X_obs["is_weekend"] = (X_obs["dayofweek"] >= 5).astype("int8")
 
-    ## Features de comportement dans l'intervalle d'observation choisi
-    ## Prend beaucoup de temps les fonctions lambda, optimisable?
+    # Features de comportement dans l'intervalle d'observation choisi
+    # Prend beaucoup de temps les fonctions lambda, optimisable?
     behavior = X_obs.groupby("user_id").agg(
     total_events   = ("event_type", "count"),
     total_views    = ("event_type", lambda x: (x == "view").sum()),
@@ -55,7 +70,7 @@ def preprocess_features(X: pd.DataFrame) -> pd.Dataframe:
         behavior["total_purchases"] / behavior["total_carts"].replace(0, 1)
     )
 
-    ## Sessions features
+    # Sessions features
     session_stats = X_obs.groupby(["user_id", "user_session"], as_index=False).agg(
         session_start = ("event_time", "min"),
         session_end   = ("event_time", "max"),
@@ -75,23 +90,12 @@ def preprocess_features(X: pd.DataFrame) -> pd.Dataframe:
         max_events_per_session  = ("session_events", "max"),
     )
 
-    # Features grouping and final X, y
-    user_features = (behavior.join(session_user, how="left")
-    )
-
-    dataset = y_purchasers.merge(user_features, on="user_id", how="inner")
-    X_processed = dataset.drop(columns="label")
-
     for col in ["avg_session_duration", "median_session_duration", "max_session_duration"]:
-        X_processed[col] = X_processed[col].dt.total_seconds()
+            session_user[col] = session_user[col].dt.total_seconds()
 
+    # Features grouping and X_features_engineering
+    X_feat_eng = (behavior.join(session_user, how="left")
+        )
+    X_feat_eng  = X_feat_eng.astype("float32")
 
-    X_processed = X_processed.astype("float32")
-    X_processed = X_processed.drop(columns="user_id")
-
-    y_processed = dataset["label"]
-
-    print("✅ X_processed, with shape", X_processed.shape)
-    print("✅ y_processed, with shape", y_processed.shape)
-
-    return X_processed, y_processed
+    return X_feat_eng

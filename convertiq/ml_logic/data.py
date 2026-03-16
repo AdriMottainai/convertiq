@@ -10,9 +10,9 @@ from convertiq.params import LOCAL_DATA_PATH, COLUMN_NAMES_RAW, DTYPES_RAW, DATA
 def load_data_kaggle_raw(nrows:int | None = None) -> pd.DataFrame:
     if nrows is None:
         nrows = DATA_SIZE_MAP[DATA_SIZE]
-        
+
     file_path = "2019-Oct.csv"
-    
+
     df = kagglehub.load_dataset(KaggleDatasetAdapter.PANDAS,"mkechinov/ecommerce-behavior-data-from-multi-category-store",
     "2019-Oct.csv",pandas_kwargs={"usecols": COLUMN_NAMES_RAW,
             "nrows": nrows,
@@ -22,7 +22,7 @@ def load_data_kaggle_raw(nrows:int | None = None) -> pd.DataFrame:
     return df
 
 def load_data_in_chunks(csv_path: str | Path):
-    
+
     return pd.read_csv(
         csv_path,
         usecols=COLUMN_NAMES_RAW,
@@ -54,6 +54,14 @@ def clean_data(df: pd.DataFrame) -> pd.DataFrame:
     # New feature "has_valid_price"
     df["has_valid_price"] = (df["price"] > 0).astype("int8")
 
+    # Filtering X to keep only top 5 category_code
+    top5 = ['electronics.smartphone', 'electronics.audio.headphone', 'electronics.video.tv',
+        'electronics.clocks', 'computers.notebook']
+    X = df[df['category_code'].isin(top5)]
+
+    # Listed in chronological order
+    X = X.sort_values("event_time").reset_index(drop=True)
+
     print("✅ Data cleaned")
 
-    return df
+    return X
