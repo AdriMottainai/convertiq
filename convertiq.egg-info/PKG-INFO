@@ -16,6 +16,8 @@ Requires-Dist: pandas==2.3.3
 Requires-Dist: lightgbm
 Requires-Dist: google.cloud
 Requires-Dist: setuptools
+Requires-Dist: fastapi
+Requires-Dist: fastapi[standard]
 Dynamic: author
 Dynamic: requires-dist
 Dynamic: summary
