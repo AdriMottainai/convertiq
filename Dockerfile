@@ -1,6 +1,5 @@
 FROM python:3.10-slim
 COPY requirements_prod.txt .
-COPY requirements_dev.txt .
 COPY setup.py .
 COPY convertiq_py ./convertiq_py
 COPY save_models ./model_lgbm_baseline.pkl
