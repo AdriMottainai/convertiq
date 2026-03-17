@@ -20,9 +20,9 @@ GCP_PROJECT = "convertiq-490009"
 
 MODEL_TARGET = "local"
 ##################  CONSTANTS  #####################
-PROJECT_ROOT = Path(__file__).resolve().parents[2]
+PROJECT_ROOT = Path(__file__).resolve().parents[0]
 LOCAL_DATA_PATH = os.path.join(PROJECT_ROOT,  'convertiq', 'raw_data')
-LOCAL_REGISTRY_PATH = os.path.join(PROJECT_ROOT, 'convertiq', 'convertiq_py', 'save_models')
+LOCAL_REGISTRY_PATH = os.path.join(PROJECT_ROOT, 'save_models')
 COLUMN_NAMES_RAW = [
     "user_id",
     "event_type",
