@@ -8,9 +8,13 @@ convertiq.egg-info/top_level.txt
 convertiq_py/__init__.py
 convertiq_py/params.py
 convertiq_py/utils.py
+convertiq_py/api/Fast_test.py
+convertiq_py/api/__init__.py
+convertiq_py/api/fast.py
 convertiq_py/ml_logic/__init__.py
 convertiq_py/ml_logic/data.py
 convertiq_py/ml_logic/encoders.py
+convertiq_py/ml_logic/evaluate.py
 convertiq_py/ml_logic/model.py
 convertiq_py/ml_logic/preprocessor.py
 convertiq_py/ml_logic/registry.py
