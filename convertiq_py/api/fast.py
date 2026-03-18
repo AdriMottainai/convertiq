@@ -19,6 +19,7 @@ async def predict_csv(csv: UploadFile = File(...)):
 
     X = clean_data(df)
 
+    X_processed = feature_engineering(X)
     X_processed = X_processed.reset_index()
     user_ids = X_processed['user_id']
     X_processed= X_processed.drop(columns=['user_id'])
