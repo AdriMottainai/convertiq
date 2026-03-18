@@ -37,7 +37,7 @@ async def predict_csv(csv: UploadFile = File(...)):
     return {
     'user_id': int(user_ids[0]),
     'prediction': int(y_pred[0]),
-    'probabilité' : float(y_proba[0])
+    'probability' : float(y_proba[0])
     }
 
 

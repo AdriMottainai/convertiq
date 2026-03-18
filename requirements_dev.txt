@@ -13,3 +13,5 @@ google.cloud
 setuptools
 fastapi
 fastapi[standard]
+streamlit
+folium
