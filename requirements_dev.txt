@@ -15,3 +15,5 @@ fastapi
 fastapi[standard]
 streamlit
 folium
+requests
+pylint

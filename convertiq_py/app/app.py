@@ -23,16 +23,17 @@ if st.button("🔮 Predict & Show Route", type="primary"):
     #params = dict()
     df_selected_user = df[df["user_id"]==selected_user].drop(columns = df.columns[0])
     
-    df_selected_user.to_csv("csv_selected_user.csv")
+    df_selected_user.to_csv("csv_selected_user.csv", index=False)
     
     myfiles = {"file": open("csv_selected_user.csv", "rb")}
 
     #response = requests.get('https://taxifare.lewagon.ai/predict', params = params)
     with open("csv_selected_user.csv", "rb") as f :
-        response = requests.post(API_PREDICT_URL, files={"file":f})
+        response = requests.post(API_PREDICT_URL, files={"csv":f})
     
     result = response.json()#['user_id', 'probability', 'prediction']
     
-    st.success(result)
-
-    #st.success(f"For {selected_user}: the next predicted event is {result["prediction"]} with a probability of {result["probability"]}"
+    if (result["prediction"] == 1):
+        st.success(f"Based on its recent behavior, this user has a {round(result['probability']*100, 2)}% probability of making a purchase in the next 2 days.")
+    else:
+        st.success(f"Based on its recent behavior, this user has a {round(result['probability']*100, 2)}% probability of making a purchase in the next 2 days.")

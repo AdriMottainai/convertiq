@@ -27,7 +27,7 @@ async def predict_csv(csv: UploadFile = File(...)):
     print('Debug X_processed')
 
     y_pred = app.state.model.predict(X_processed)
-    y_proba = app.state.model.predict_proba(X_processed)[1]
+    y_proba = app.state.model.predict_proba(X_processed)[:,1]
     #y_pred.apply(lambda x: 'purchase' if x==1 else 'no purchase')
 
     print('Debug y_pred')
