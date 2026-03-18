@@ -2,19 +2,20 @@ import streamlit as st
 import pandas as pd
 import requests
 import os
-from convertiq_py.params import *
+from pathlib import Path
 
 API_PREDICT_URL = "https://convertiq-docker-2-551516277637.europe-west1.run.app/predict"
+PROJECT_ROOT = Path(__file__).resolve().parents[0]
 
 st.set_page_config(page_icon="🛒", page_title="convertIQ")
 
-st.image(os.path.join(PROJECT_ROOT,"../data_streamlit/Convertiq_banner.png"))
+st.image(os.path.join(PROJECT_ROOT,"../../data_streamlit/Convertiq_banner.png"))
 
 st.title("convertIQ")
 
 st.subheader("Prediction-based on user behavior...")
 
-df = pd.read_csv(os.path.join(PROJECT_ROOT,"../data_streamlit/dataset_2user.csv"))
+df = pd.read_csv(os.path.join(PROJECT_ROOT,"../../data_streamlit/dataset_2user.csv"))
 
 selected_user = st.selectbox("Pick a user_id", sorted(df["user_id"].unique()))
 
