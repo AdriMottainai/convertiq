@@ -1,0 +1,39 @@
+<svg width="760" height="420" viewBox="0 0 760 420" xmlns="http://www.w3.org/2000/svg">
+
+  <!-- ROUTE BORDURE -->
+  <path d="
+    M60 360
+    Q150 200 240 300
+    Q330 380 420 240
+    Q510 120 600 260
+    Q680 360 720 180" fill="none" stroke="#5f5f5f" stroke-width="34" stroke-linecap="round" stroke-linejoin="round"></path>
+
+  <!-- ROUTE -->
+  <path d="
+    M60 360
+    Q150 200 240 300
+    Q330 380 420 240
+    Q510 120 600 260
+    Q680 360 720 180" fill="none" stroke="#2f2f2f" stroke-width="24" stroke-linecap="round" stroke-linejoin="round"></path>
+
+  <!-- LIGNE CENTRALE -->
+  <path d="
+    M60 360
+    Q150 200 240 300
+    Q330 380 420 240
+    Q510 120 600 260
+    Q680 360 720 180" fill="none" stroke="white" stroke-width="3" stroke-dasharray="12 12" stroke-linecap="round"></path>
+
+  <!-- POINTS AUX VIRAGES -->
+  <circle cx="150" cy="200" r="14" fill="#ff3b3b" stroke="white" stroke-width="4"></circle>
+  <circle cx="330" cy="380" r="14" fill="#ff3b3b" stroke="white" stroke-width="4"></circle>
+  <circle cx="510" cy="120" r="14" fill="#ff3b3b" stroke="white" stroke-width="4"></circle>
+  <circle cx="680" cy="360" r="14" fill="#ff3b3b" stroke="white" stroke-width="4"></circle>
+
+  <!-- INDICATIONS -->
+  <text x="150" y="170" text-anchor="middle" font-family="Arial" font-size="15" fill="#333">View</text>
+  <text x="330" y="410" text-anchor="middle" font-family="Arial" font-size="15" fill="#333">View</text>
+  <text x="510" y="95" text-anchor="middle" font-family="Arial" font-size="15" fill="#333">Cart</text>
+  <text x="680" y="390" text-anchor="middle" font-family="Arial" font-size="15" fill="#333">Purchase</text>
+
+</svg>
