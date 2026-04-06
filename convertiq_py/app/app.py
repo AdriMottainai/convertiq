@@ -4,7 +4,9 @@ import requests
 import os
 from pathlib import Path
 
-API_PREDICT_URL = "https://convertiq-docker-2-551516277637.europe-west1.run.app/predict"
+API_PREDICT_URL = os.environ.get(
+    "API_URL", "http://localhost:8000"
+) + "/predict"
 PROJECT_ROOT = Path(__file__).resolve().parents[0]
 
 st.set_page_config(page_icon="🛒", page_title="convertIQ")

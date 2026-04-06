@@ -15,10 +15,10 @@ DATA_SIZE_MAP = {
 OBSERVATION_END = "2019-10-06"
 PREDICTION_END = "2019-10-08"
 
-CHUNK_SIZE = 100_000 #nbr de row qu'on va utiliser [pas encore operationnel en code]
-GCP_PROJECT = "convertiq-490009"
+CHUNK_SIZE = 100_000
 
-MODEL_TARGET = "local"
+GCP_PROJECT = os.environ.get("GCP_PROJECT_ID", "your-gcp-project-id")
+MODEL_TARGET = os.environ.get("MODEL_TARGET", "local")
 ##################  CONSTANTS  #####################
 PROJECT_ROOT = Path(__file__).resolve().parents[0]
 LOCAL_DATA_PATH = os.path.join(PROJECT_ROOT,  'convertiq', 'raw_data')

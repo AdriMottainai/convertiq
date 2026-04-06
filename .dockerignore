@@ -1,0 +1,6 @@
+__pycache__/
+
+.git/
+
+raw_data/2019-Oct.csv.zip
+raw_data/*.zip

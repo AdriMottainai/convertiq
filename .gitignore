@@ -89,3 +89,6 @@ ipython_config.py
 .env
 __pycache__/
 *.pyc
+
+# Temp files
+csv_selected_user.csv
