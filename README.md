@@ -4,7 +4,7 @@
   <img src="data_streamlit/Convertiq_banner.png" alt="ConvertIQ Banner" width="600"/>
 </p>
 
-**ConvertIQ** predicts whether an e-commerce user will make a purchase within the next 2 days, based on their browsing behavior. The project covers the full ML pipeline: data processing, feature engineering, model training, API deployment, and a web interface.
+**ConvertIQ** predicts whether an e-commerce user will make a purchase within the next 2 days, based on their browsing behavior. The project covers the full ML pipeline: data processing, feature engineering, model training, API deployment, and a simple web interface.
 
 > Final project for Le Wagon Data Science & AI bootcamp (team of 4).
 > The entire project was built without AI assistance for learning purposes, except for this README and some test notebooks.
