@@ -19,7 +19,7 @@
 | PR-AUC | 0.172 | **0.199** |
 | Recall | 0.536 | **0.666** |
 
-The model identifies **~67% of future buyers** from behavioral signals, using LightGBM with class imbalance handling (`scale_pos_weight=40`).
+The model identifies **~67% of future buyers** from behavioral signals, using LightGBM with class imbalance handling.
 
 ---
 
