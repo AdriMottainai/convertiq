@@ -1,0 +1,23 @@
+# Channels to watch. Populate `channels:` with your own entries.
+#
+# For each channel provide ANY ONE of:
+#   channel_id : "UCxxxxxxxxxxxxxxxxxxxxxx"   (most reliable — no resolution needed)
+#   handle     : "@thehandle"                 (resolved to a channel_id on first run)
+#   url        : "https://www.youtube.com/@thehandle" or ".../channel/UC..."
+#
+# After the first run, resolved channel_ids are written back into this file so
+# resolution only happens once.
+
+defaults:
+  languages: [en]              # preferred transcript languages, best-effort order
+  whisper_fallback: true       # transcribe with Whisper when no captions exist
+  first_seen_max_age_days: 14  # on first sight of a channel, ignore videos older than this
+                               # (prevents ingesting an entire back-catalogue)
+
+channels:
+  - name: "Example Channel"
+    handle: "@examplehandle"
+    # channel_id: "UCxxxxxxxxxxxxxxxxxxxxxx"   # auto-filled after first resolve
+    # url: "https://www.youtube.com/@examplehandle"
+    agents_hint: []            # optional: bias classification toward these agent ids
+    skills_hint: []            # optional: bias classification toward these skill ids

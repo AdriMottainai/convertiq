@@ -1,0 +1,24 @@
+# Secrets
+.env
+
+# Python
+__pycache__/
+*.py[cod]
+*.egg-info/
+.eggs/
+build/
+dist/
+.pytest_cache/
+.venv/
+venv/
+
+# Whisper fallback temp audio / model cache
+*.m4a
+*.mp3
+*.webm
+*.part
+.cache/
+audio_tmp/
+
+# OS
+.DS_Store

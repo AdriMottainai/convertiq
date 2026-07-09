@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<feed xmlns:yt="http://www.youtube.com/xml/schemas/2015"
+      xmlns:media="http://search.yahoo.com/mrss/"
+      xmlns="http://www.w3.org/2005/Atom">
+  <yt:channelId>UC1234567890abcdefghABCD</yt:channelId>
+  <title>Sample Channel</title>
+  <entry>
+    <id>yt:video:aaaaaaaaaaa</id>
+    <yt:videoId>aaaaaaaaaaa</yt:videoId>
+    <yt:channelId>UC1234567890abcdefghABCD</yt:channelId>
+    <title>Newest video about ASO keywords</title>
+    <published>2026-07-08T10:00:00+00:00</published>
+    <updated>2026-07-08T10:00:00+00:00</updated>
+  </entry>
+  <entry>
+    <id>yt:video:bbbbbbbbbbb</id>
+    <yt:videoId>bbbbbbbbbbb</yt:videoId>
+    <yt:channelId>UC1234567890abcdefghABCD</yt:channelId>
+    <title>Older video about ROAS</title>
+    <published>2026-05-01T10:00:00+00:00</published>
+    <updated>2026-05-01T10:00:00+00:00</updated>
+  </entry>
+</feed>

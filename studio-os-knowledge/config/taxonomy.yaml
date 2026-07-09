@@ -1,0 +1,50 @@
+# The Studio OS taxonomy. Each note Claude produces is classified against these
+# ids, so the notes become navigable, reusable context for your agents & skills.
+# Edit freely — add/remove/rename. `id` must be a stable, url/tag-safe slug.
+# `description` helps Claude classify accurately, so keep them meaningful.
+
+agents:
+  - id: user-acquisition-manager
+    description: "UA strategy, paid channels, campaign structure, creative testing, CPI/CPM/CTR."
+  - id: monetization-manager
+    description: "IAP, ads, subscriptions, pricing, LTV, ad mediation, revenue optimization."
+  - id: data-analytics
+    description: "Metrics, cohorts, retention, attribution, funnels, experimentation, dashboards."
+  - id: market-intelligence
+    description: "Competitors, category trends, benchmarks, market sizing, positioning."
+  - id: internal-process-review
+    description: "Auditing internal workflows, identifying bottlenecks, quality of execution."
+  - id: internal-process-optimizer
+    description: "Improving and automating internal processes, tooling, and operating cadence."
+  - id: editorial
+    description: "Editorial line, content/app strategy, brand voice, product narrative (led by you)."
+
+skills:
+  - id: aso-keyword-optimizer
+    description: "App Store / Play Store keyword research, metadata, ranking optimization."
+  - id: creative-hook-manager
+    description: "Ad creative hooks, concepts, angles, thumbnail/video hook testing."
+  - id: applovin-network-optimizer
+    description: "AppLovin (AppDiscovery / MAX) campaign and network optimization."
+  - id: ironsource-optimizer
+    description: "ironSource / Unity LevelPlay campaign and mediation optimization."
+  - id: early-test-checker
+    description: "Early soft-launch / test read-outs: CPI, IPM, retention, early ROAS signals."
+  - id: monetization-waterfalls
+    description: "Ad mediation waterfalls, bidding, eCPM floors, network setup."
+  - id: roas-optimizer
+    description: "Return on ad spend modeling, payback windows, scaling decisions."
+  - id: bid-manager
+    description: "Bidding strategy across networks, bid caps, tROAS/tCPA, budget pacing."
+  - id: icon-maker
+    description: "App icon design, iconography A/B tests, store icon optimization."
+  - id: screenshot-maker
+    description: "Store screenshots, captions, ordering, and screenshot A/B tests."
+  - id: store-description-maker
+    description: "Store listing copy, descriptions, promotional text, localization."
+  - id: game-design-document-maker
+    description: "Game/app design documents, mechanics, loops, systems specification."
+  - id: feature-maker
+    description: "Feature ideation, specification, prioritization, and scoping."
+  - id: paywall-strategist
+    description: "Paywall design, placement, offers, subscription/IAP conversion strategy."
